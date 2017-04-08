@@ -2,12 +2,12 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: http://mazhuang.org
+url: http://yankun1992.github.io
 date_format: "ordinal"
-title: 码志
-subtitle: "打码改变人生"
-description: "马壮的个人博客"
-keywords: 码志, Zhuang Ma, mzlogin, mazhuang
+title: 世界的解析
+subtitle: "用代码去解析这个世界"
+description: "严锟的个人博客"
+keywords: 世界的解析, Kun Yan, yankun1992, yankun
 favicon: /favicon.ico
 timezone: Asia/Shanghai
 encoding: "utf-8"
@@ -16,12 +16,12 @@ side_bar_repo_limit: 5
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Zhuang Ma
-organization: Sogou, Inc.
-organization_url: https://www.sogou.com
-github_username: mzlogin
-location: Beijing, China
-email: chumpma@gmail.com
+author: Kun Yan
+organization: 
+organization_url: 
+github_username: yankun1992
+location: Chengdu, China
+email: 1939810907@qq.com
 
 # ---------------- #
 #    Navigation    #
