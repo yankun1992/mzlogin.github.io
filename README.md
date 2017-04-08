@@ -1,6 +1,7 @@
 # 码志
 
-我的个人博客：<http://mazhuang.org>，欢迎 Star 和 Fork。
+我的个人博客：<http://yankun1992.githhub.io>，欢迎 Star 和 Fork。( forked from mzlogin/mzlogin.github.io
+尚未修改完全 )
 
 ## 概览
 
