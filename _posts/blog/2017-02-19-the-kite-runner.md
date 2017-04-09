@@ -5,7 +5,7 @@ categories: Blog
 description: 希望自己有输入必有输出，这是开篇。
 keywords: 追风筝的人
 ---
-
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
 > 《追风筝的人》确实是一部相当优秀而又深刻的作品。——小别老师
 
 ![](/images/blog/the-kite-runner.png)
