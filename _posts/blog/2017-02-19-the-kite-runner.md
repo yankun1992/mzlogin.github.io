@@ -1,4 +1,9 @@
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript"async src="path-to-mathjax/MathJax.js?config=TeX-AMS_CHTML"></script>
 ---
 layout: post
 title: 读书：追风筝的人
