@@ -14,7 +14,12 @@ Scala 可以省略分号，多个表达式处于一行时用分号分隔。
 * `val` 声明不可变变量
 * `var` 声明可变变量
 
-_可变与不可变是指引用是否可变，不是引用指向代堆内存是否可变，注意不要与 scala 的 `immutable` 与 `mutable` 搞混淆_
+_可变与不可变是指引用是否可变，不是引用指向的堆内存是否可变，注意不要与 scala 的 `immutable` 与 `mutable` 搞混淆_
+```scala
+val array: Array[String] = new Array(5)
+array(0) = "hello"        //可以正确运行
+array = new Array(2)      //不可以正确运行
+```
 ### Range
 ### 偏函数
 ### 方法声明
