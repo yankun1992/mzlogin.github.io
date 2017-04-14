@@ -14,12 +14,13 @@ Scala 可以省略分号，多个表达式处于一行时用分号分隔。
 * `val` 声明不可变变量
 * `var` 声明可变变量
 
-_可变与不可变是指引用是否可变，不是引用指向的堆内存是否可变，注意不要与 scala 的 `immutable` 与 `mutable` 搞混淆_
+_可变与不可变是指引用是否可变，不是引用指向的堆内存是否可变，注意不要与 scala 的 `immutable` 与 `mutable` 搞混淆，例如：_
 ```scala
 val array: Array[String] = new Array(5)
 array(0) = "hello"        //可以正确运行
 array = new Array(2)      //不可以正确运行
 ```
+用 `val` 与 `var` 声明变量必须初始化，当 `val` 与 `var` 用于类的构造函数的参数中的时候，这时候变量是类的一个属性。 `val` 属性不可变， `var` 属性可变。为了减少可变性引起的 bug ，应该尽可能少使用 `var` 。
 ### Range
 ### 偏函数
 ### 方法声明
