@@ -26,3 +26,10 @@ permalink: /about/
 {% endfor %}
 </div>
 {% endfor %}
+
+## 论文
+
+{% for paper in site.data.paper %}
+- [{{ paper.papername }}]({{ paper.url }})
+{% endfor %}
+
