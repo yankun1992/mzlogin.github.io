@@ -1,19 +1,30 @@
 - name: Software Engineer Keywords
   keywords:
-      - Java
-      - C++
+      - Scala
+      - C
       - Python
-      - Design Patterns
+      - 汇编
 
-- name: Mobile Developer Keywords
+- name: 大数据/云计算
   keywords:
-      - Android
-      - Reverse Engineering
+      - Spark
+      - MongoDB
+      - Docker
 
-- name: Windows Developer Keywords
+- name: 算法
   keywords:
-      - Win32 SDK
-      - DuiLib
-      - WTL
-      - COM
-      - WinDbg
+      - SVM
+      - 聚类
+      - 决策树
+      - 贝叶斯方法/贝叶斯网络
+      - 神经网络/深度学习
+      - 线性模型
+      - PCA
+      - HMM
+
+- name: 数学
+  keywords:
+    - 概率论与数理统计
+    - 常微分方程
+    - 抽象代数
+
