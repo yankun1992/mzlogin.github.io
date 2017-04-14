@@ -39,14 +39,19 @@ case class Point(x: Double = 0.0, y: Double = 0.0) {
   def shift(deltax: Double = 0.0, deltay: Double = 0.0) =
     copy (x + deltax, y + deltay)
 }
-abstract class Shape() {
-    def draw(offset: Point = Point(0.0, 0.0))(f: String => Unit): Unit =
-    f(s"draw(offset = $offset), ${this.toString}")
-}
-case class Circle(center: Point, radius: Double) extends Shape
-case class Rectangle(lowerLeft: Point, height: Double, width: Double) extends Shape
+```
+可行的构造方式有：
+```scala
+val p = new Point(x=3.0, y=4.0)
+val p1 = Point(3.0,4.0)
+val p2 = Point(3.0)                          //p2 = Point(3.0, 0.0)
+val p3 = Point(y=4.0)                        //p3 = Point(0.0, 4.0)
 ```
 #### 多个参数列表
+```scala
+def drawPoint(p: Point = Point(0.0, 0.0))(drawfunc: String => Unit = println) =
+  drawfunc(p.toString)
+```
 #### Future 简介
 #### 嵌套方法与递归
 ### 类型推断
