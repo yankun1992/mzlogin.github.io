@@ -83,6 +83,23 @@ object Future {
 `Future` 将一段耗时的代码 `body` 进行封装，封装后返回一个 `Future[T]` 类型的对象，这段代码会在 `ExecutionContext` 中进行执行，只有在 `ExecutionContext` 中执行结束， `Future[T]` 类型的对象才能获取到 `body` 的运行结果。 示例代码中的 `body` 为 `传名参数` ， 后文会有详细介绍。 更多关于 `Future` 的介绍可以 [点击](http://udn.yyuap.com/doc/guides-to-scala-book/chp8-welcome-to-the-future.html) 进行更多了解。
 ![Future](/images/posts/2017_04/future.png) 
 #### 嵌套方法与递归
+方法的定义可以嵌套，方法内部可以定义方法，但是内部方法只有在方法内部可见, 下面示例方法 `fact` 与 `factTail` 就是方法 `factorial` 的内部方法，在 `factorial` 外部不可见：
+```scala
+def factorial(i: Int): Long = {
+  def fact(n: Int): Long = {
+    case 1 => 1.toLong
+    case n if n > 1 => n * f(n - 1)
+  }
+  def factTail(n: Int, acc: Long): Long = {
+    case 1 => 1.toLong
+    case n if n > 1 => factTail(n - 1, n * acc)
+  }
+  fact(i)
+}
+```
+在示例中， `fact` 与 `factTail` 都调用了本身， 像这种方式定义的方法就是递归方法。
+#### 尾递归
+在上一节的示例中， `fact` 与 `factTail` 都是递归方法， 但是他们有点不同，这是一种使用递归的诡计， 让我们先从函数栈的角度来理解递归，然后再画一个简单的示意图来理解这种诡计：
 ### 类型推断
 ### 保留字
 ### 字面量
@@ -94,6 +111,7 @@ object Future {
 #### 符号
 #### 函数
 #### 元组
+### 值、对象、类、类型、函数与方法
 ### Option 、 Some 和 None : 避免使用 null
 ### 封闭类代继承
 ### 代码组织：文件和名空间
