@@ -59,11 +59,11 @@ def drawPoint(p: Point = Point(0.0, 0.0))(drawfunc: String => Unit = println) =
 drawPoint(Point(3.0, 4.0)) {
   str => {
     println("drawfunc !!!")
-    println(str)
+    println(str)            //{...} 代码快的返回值为最后一个表达式的值，在这儿就是 `println(str)` 
   }
 }
 ```
-这种方式很像其他语言中的 `if` 和 `for` 表达式， 只不过在 scala 的这种写法中， `{...}` 块表示的是传给 `drawPoint` 方法的参数， 其本质是一个匿名函数。 示例代码中第一个参数使用默认值时第一个括号不能省略。
+这种方式很像其他语言中的 `if` 和 `for` 表达式， 只不过在 scala 的这种写法中， `{...}` 块表示的是传给 `drawPoint` 方法的参数， `str => {...}`其本质是一个类型为 `String => Unit` 类型的匿名函数。 示例代码中第一个参数使用默认值时第一个括号不能省略。
 
 多参数列表第二个优势是类型推断：
 ```scala
