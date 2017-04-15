@@ -59,7 +59,7 @@ def drawPoint(p: Point = Point(0.0, 0.0))(drawfunc: String => Unit = println) =
 drawPoint(Point(3.0, 4.0)) {
   str => {
     println("drawfunc !!!")
-    println(str)            //{...} 代码快的返回值为最后一个表达式的值，在这儿就是 println(str) 
+    println(str)  //{...} 代码快的返回值为最后一个表达式的值，在这儿就是 println(str) 
   }
 }
 ```
