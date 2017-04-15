@@ -75,6 +75,12 @@ m2(100)(i => i.toString)                           //可以正常运行
 ```
 多参数列表第三个优势是最后一个参数列表使用 `implicit` 关键字声明隐式参数，当相应方法被调用时，可以显示指定这个参数，当没有指定时，编译器会在当前作用域找到一个合适的值作为参数，可以让代码更精简。下节的 `Future` 就是这样一个例子。
 #### Future 简介
+```scala
+object Future {
+  def apply[T](body: => T)(implicit execctx: ExecutionContext): Future[T]
+}
+```
+`Future` 将一段耗时的代码 `body` 进行封装，封装后返回一个 `Future[T]` 类型的对象，这段代码会在 `ExecutionContext` 中进行执行，只有在 `ExecutionContext` 中执行结束， `Future[T]` 类型的对象才能获取到 `body` 的运行结果。 示例代码中的 `body` 为 `传名参数` ， 后文会有详细介绍。 更多关于 `Future` 的介绍可以 [点击](http://udn.yyuap.com/doc/guides-to-scala-book/chp8-welcome-to-the-future.html) 进行更多了解。
 ![Future](/images/posts/2017_04/future.png) 
 #### 嵌套方法与递归
 ### 类型推断
