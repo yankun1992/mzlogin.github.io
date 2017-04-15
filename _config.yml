@@ -5,7 +5,7 @@ baseurl:
 url: http://www.yankun.tech/
 date_format: "ordinal"
 title: 世界的解析
-subtitle: "啊哦"
+subtitle: "啊~~哦~~~"
 description: "严锟的个人博客"
 keywords: 世界的解析, Kun Yan, yankun1992, yankun
 favicon: /favicon.ico
@@ -37,7 +37,7 @@ navs:
 
   -
     href: /wiki/
-    label: 维基
+    label: wiki
 
   -
     href: /links/

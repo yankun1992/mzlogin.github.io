@@ -6,8 +6,9 @@ description: scala 程序设计第二版读书笔记
 keywords: 程序语言
 ---
 
-> 此博客为 《 Scala 程序设计 (第 2 版) 》 读书笔记，转载请保留原始地址。 需要更加深入学习建议购买正版图书 [图灵社区](http://www.ituring.com.cn/book/1593)
-
+> 此博客主要内容为 《 Scala 程序设计 (第 2 版) 》 读书笔记，转载请保留原始地址。 需要更加深入学习建议购买正版图书 [图灵社区](http://www.ituring.com.cn/book/1593)
+## 快速入门
+[scala 课堂](https://twitter.github.io/scala_school/zh_cn/)
 ## 用 scala 简洁有效的完成工作
 ### 分号
 Scala 可以省略分号，多个表达式处于一行时用分号分隔。
@@ -52,7 +53,28 @@ val p3 = Point(y=4.0)                        //p3 = Point(0.0, 4.0)
 def drawPoint(p: Point = Point(0.0, 0.0))(drawfunc: String => Unit = println) =
   drawfunc(p.toString)
 ```
+可以任意指定参数列表的个数， 但是实际上很少有人使用两个以上的参数列表。当最后一个参数列表包含一个表示函数的参数时， 多个参数列表的形式拥有整齐的块结构语法， 还允许将参数列表两边的圆括号替换为花括号， 例如：
+```scala
+drawPoint(Point(3.0, 4.0)) {
+  str => {
+    println("drawfunc !!!")
+    println(str)
+  }
+}
+```
+这种方式很像其他语言中的 `if` 和 `for` 表达式， 只不过在 scala 的这种写法中， `{...}` 块表示的是传给 `drawPoint` 方法的参数， 其本质是一个匿名函数。 示例代码中第一个参数使用默认值时第一个括号不能省略。
+
+多参数列表第二个优势是类型推断：
+```scala
+def m1[A](a: A, f: A => String) = f(a)
+def m2[A](a: A)(f: A => String) = f(a)
+
+m1(100, i => i.toString)                           //error: missing parameter type
+m2(100)(i => i.toString)                           //可以正常运行
+```
+多参数列表第三个优势是最后一个参数列表使用 `implicit` 关键字声明隐式参数，当相应方法被调用时，可以显示指定这个参数，当没有指定时，编译器会在当前作用域找到一个合适的值作为参数，可以让代码更精简。下节的 `Future` 就是这样一个例子。
 #### Future 简介
+
 #### 嵌套方法与递归
 ### 类型推断
 ### 保留字
