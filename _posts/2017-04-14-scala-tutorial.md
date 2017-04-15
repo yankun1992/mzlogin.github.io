@@ -91,8 +91,10 @@ def factorial(i: Int): Long = {
     case n if n > 1 => n * f(n - 1)
   }
   def factTail(n: Int, acc: Long): Long = {
-    case 1 => 1.toLong
-    case n if n > 1 => factTail(n - 1, n * acc)
+    n match {
+      case 1 => 1.toLong
+      case n if n > 1 => factTail(n - 1, n * acc )
+    }
   }
   fact(i)
 }
@@ -107,7 +109,7 @@ def factorial(i: Int): Long = {
 在示意图中，被调用函数执行结束后相应的栈帧就会被弹出，执行的结果放在调用函数栈帧的某个位置。 了解了函数栈帧后再来看递归函数，因为递归函数的参数在没有到达边界条件的时候，比如上节示例代码中 `fact` 参数大于 1 的时候， `fact` 就会一直调用自身， 相应的栈帧就会一直增长， 如果栈空间不足， 就会造成 `StackOverflowError` 错误。 这是使用递归函数需要非常小心的地方！
 
 而尾递归是编译器对递归的一种优化措施(将递归编译成等效的循环)， 但并不是所有的递归函数都可以进行尾递归优化， 书本中这样定义尾递归： `表示调用递归函数是该函数中最后一个表达式，该表达式的返回值就是所调用的递归函数的返回值` 。 下面我们结合一些简单的示意图来理解这个定义：
-
+![factTail](/images/posts/2017_04/factTail.png)
 
 ### 类型推断
 ### 保留字
