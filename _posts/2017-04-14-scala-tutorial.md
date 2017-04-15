@@ -7,6 +7,7 @@ keywords: 程序语言
 ---
 
 > 此博客主要内容为 《 Scala 程序设计 (第 2 版) 》 读书笔记，转载请保留原始地址。 需要更加深入学习建议购买正版图书 [图灵社区](http://www.ituring.com.cn/book/1593)
+
 ## 快速入门
 [scala 课堂](https://twitter.github.io/scala_school/zh_cn/)
 ## 用 scala 简洁有效的完成工作
