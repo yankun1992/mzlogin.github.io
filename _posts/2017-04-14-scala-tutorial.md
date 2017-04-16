@@ -133,12 +133,12 @@ object StringUtil {
   
   def makeList(strings: String*) = {//期望类型推断为 List[String]
     if (strings.length == 0)
-      List(0)                       //误用，类型为 List[Int]，本来该用 List.empty[String]
-    else strings.toList             //类型为 List[String]
-  }                                 //类型江湖被推断为 List[Any]
+      List(0)                    //误用，类型为 List[Int]，本来该用 List.empty[String]
+    else strings.toList          //类型为 List[String]
+  }                              //类型江湖被推断为 List[Any]
   
-  def double(i: Int) { 2 * i}       //类型推断为 Unit
-  def double2(i: Int) = { 2 * i}    //类型推断为 Int
+  def double(i: Int) { 2 * i}    //类型推断为 Unit
+  def double2(i: Int) = { 2 * i} //类型推断为 Int
 }
 ```
 ### 字面量
