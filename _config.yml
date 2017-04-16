@@ -95,5 +95,5 @@ repository: yankun1992/yankun1992.github.io
 # ---------------- #
 #    Analytics     #
 # ---------------- #
-# google:
-#     analytics_id: UA-80669434-1
+google:
+    analytics_id: UA-97479962-1
