@@ -152,6 +152,7 @@ object StringUtil {
 - 符号
 - 函数
 - 元组
+
 ### 值、对象、类、类型、函数与方法
 ### Option 、 Some 和 None : 避免使用 null
 ### 封闭类代继承
