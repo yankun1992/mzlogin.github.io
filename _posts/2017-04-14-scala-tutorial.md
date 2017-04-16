@@ -135,7 +135,7 @@ object StringUtil {
     if (strings.length == 0)
       List(0)                    //误用，类型为 List[Int]，本来该用 List.empty[String]
     else strings.toList          //类型为 List[String]
-  }                              //类型江湖被推断为 List[Any]
+  }                              //类型将会被推断为 List[Any]
   
   def double(i: Int) { 2 * i}    //类型推断为 Unit
   def double2(i: Int) = { 2 * i} //类型推断为 Int
