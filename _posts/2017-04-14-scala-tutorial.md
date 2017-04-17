@@ -274,8 +274,35 @@ package com {
   }
 }
 ```
+
 - 包不能在类或对象中定义
 ### 导入类型及成员
+```scala
+import java.awt._                //导入 awt 下所有成员
+import java.io.File              //导入 File
+import java.util.{Map, HashMap}  //导入 Map HashMap
+import java.math.BigInteger.{
+  ONE => _ ,                     //隐藏这个成员
+  TEN ,                          //导入 TEN
+  ZERO => JAVAZERO               //导入 ZERO 并重命名为 JAVAZERO
+}
+```
 #### 导入是相对的
+```scala
+import collection.immutable._    
+// collection 为 scala 包的子包， scala 包默认已导入
+import _root_.scala.collection.parallel._ //从根开始导入
+```
+
 #### 包对象
+```scala
+// src/com/example/json/package.scala //文件名必须为 package.scala
+package com.example //json 包的上层包作用域
+package object json { //package 关键字给包对象命名， 此处为 json
+  class JSONObject {...}  //暴露给 API 使用者的包对象的成员
+  def formString(string: String): JSONObject = {...}
+}
+```
+使用时通过 `import com.example.json._` 导入包对象中的成员
+
 ### 抽象类型与参数化类型
