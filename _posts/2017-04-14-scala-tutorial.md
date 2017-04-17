@@ -185,7 +185,7 @@ $$
 y=f(\color{red}{x})
 $$
 \begin{equation}
-J_\alpha(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \Gamma (m + \alpha + 1)} {\left({ \color{blue}{\frac{x}{2}} }\right)}^{2m + \alpha}
+J_\alpha(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \Gamma (m + \alpha + 1)} {\left({ \colorbox{blue}{\frac{x}{2}} }\right)}^{2m + \alpha}
 \label{eq:sum1}
 \end{equation}
 ### 传名参数、传值参数
