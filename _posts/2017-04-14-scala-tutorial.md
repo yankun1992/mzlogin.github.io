@@ -349,4 +349,16 @@ class FileBulkReader(val source: File) extends BulkReader {
 println(new StringBulkReader("hello scala !").read)
 println(new FileBulkReader(new File("path/to/some/file")).read)
 ```
+如果改为参数化类型的协法为：
+```scala
+abstract class BulkReader[In] {
+  val source: In
+  ...
+}
+class StringBulkReader(val source: String) extends BulkReader[String] {...}
+class FileBulkReader(val source: File) extends BulkReader[File] {...}
+```
 
+#### 类型成员相比参数化类型的优势
+当类型参数与参数化的类型无关时， 参数化类型更加适用。 比如 `List[T]` , `T` 可以是 `Int` 或者 `String` 等。
+而当类型成员与所封装的类型同步变化时， 类型成员更加适用。 比如 `BulkReader` 这个例子， 类型成员需要与封装的类型行为一致。 有时这种特点被称为家族多态， 或者协特化。
