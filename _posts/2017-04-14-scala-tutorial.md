@@ -182,7 +182,7 @@ We're glad you're here.
 ### 值、对象、类、类型
 <span style="color: red">内容</span> 
 $$
-y=f(x)
+y=f(<span style="color: red">x</span>)
 $$
 ### 传名参数、传值参数
 ### Option 、 Some 和 None : 避免使用 null
