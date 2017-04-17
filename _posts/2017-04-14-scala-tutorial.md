@@ -155,6 +155,26 @@ object StringUtil {
     - `false`
 - 字符
 - 字符串
+    - 双引号: 里面出现双引号需要转义字符 `\`
+    - 三重引号: 可以跨行， 可以包含任意字符， 不会转义， 但是里面不能出现三个连续的引号
+
+```scala
+def hello(name: String) = s"""Welcome !
+  Hello, $name !
+  * (Gratuitous Star !)
+  |We're glad you're here. 
+  |  Have some extra whitespace.""".stripMargin() 
+hello("yankun")
+```
+输出：
+```
+Welcome !
+  Hello, yankun !
+  * (Gratuitous Star !)
+We're glad you're here. 
+  Have some extra whitespace
+```
+
 - 符号
 - 函数
 - 元组
