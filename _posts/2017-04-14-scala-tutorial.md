@@ -180,6 +180,7 @@ We're glad you're here.
 - 元组: `TupleN` ， 例如 `val tup = ("www.yankun.tech", 100)` 类型为 `Tuple2[String, Int]` 简写为 `(String, Int)` 。 使用 `_n` 从元组中提取值， 例如 `tup._1` 。 使用箭头操作符产生二元组 `"www.yankun.tech" -> 100` 。
 
 ### 值、对象、类、类型
+<font color=red>内容</font> 
 ### 传名参数、传值参数
 ### Option 、 Some 和 None : 避免使用 null
 ### 封闭类代继承
