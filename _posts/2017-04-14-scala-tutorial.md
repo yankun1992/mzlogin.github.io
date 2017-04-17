@@ -177,7 +177,7 @@ We're glad you're here.
 
 - 符号: `'` + `数字` or `字母` or `下划线` ， 但是第一个字符不能为数字， 或者 `Symbol("id")` , 包含空格的符号 `Symbol("id ")`
 - 函数: `val f: (Int, String) => String = (i, s) => s + i.toString()` , 对象 `f` 的类型为 `Function2[Int. String, String]` (简写为 `(Int, String) => String`)
-- 元组
+- 元组: `TupleN` ， 例如 `val tup = ("www.yankun.tech", 100)` 类型为 `Tuple2[String, Int]` 简写为 `(String, Int)` 。 使用 `_n` 从元组中提取值， 例如 `tup._1` 。
 
 ### 值、对象、类、类型、函数与方法
 ### Option 、 Some 和 None : 避免使用 null
