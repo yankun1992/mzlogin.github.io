@@ -249,6 +249,32 @@ sealed abstract class Option[+T] extends ... {...}
 ```
 
 ### 代码组织：文件和名空间
+Scala 沿用 Java 用包涞表示命名空间这一做法， 但是更加灵活， 文件名不必与类名一致， 包结构不一定要与目录结构一致。
+- Java 常规写法：
+```scala
+//file: src/main/com/example/mypkg.scala
+package com.example.mypkg
+class MyClass {...}
+```
+- 嵌套结构语法定义包作用域
+```scala
+//file: src/main/com/example/mypkg.scala
+package com {
+  package example{
+    package pkg1{
+      class C11 {def m = "m11"}
+      class C12 {def m = "m12"}
+    }
+    package pkg2{
+      class C21 {def m = "m21"; def makeC11 = {new pkg1.C11}; }
+    }
+    package pkg3.pkg31.pkg311 {
+      class C311 {def m = "m311"}
+    }
+  }
+}
+```
+- 包不能在类或对象中定义
 ### 导入类型及成员
 #### 导入是相对的
 #### 包对象
