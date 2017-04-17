@@ -242,7 +242,12 @@ end
 
 ### Option 、 Some 和 None : 避免使用 null
 当一个返回值可能产生 `null` 的时候， 不直接返回这个值， 而是使用 `Option[T]` 对象对返回值进行封装， 正常值为 `Some(value of type T)` ， null 变为 `None` , `Some` 与 `None` 都是 `Option[T]` 的子类， 对 `Option[T]` 对象使用 `get` 方法获取 `Option[T]` 里的值， 如果是 `None` 将会抛出 `NoSuchElementException` 异常。 可以使用更安全的 `getOrElse` 方法为 `None` 提供一个默认值。 更多知识可以点击 [这里](http://udn.yyuap.com/doc/guides-to-scala-book/chp5-the-option-type.html) 了解。 
-### 封闭类代继承
+### 封闭类的继承
+使用关键字 `sealed` 告诉编译器所有子类必须在同一个源文件中声明。 比如类型 `Option` 只有两个子类 `Some` 和 `None`， 为了防止用户私自给 `Option` 派生其他子类， `Option` 声明时使用 `sealed` 关键字进行限制：
+```scala
+sealed abstract class Option[+T] extends ... {...}
+```
+
 ### 代码组织：文件和名空间
 ### 导入类型及成员
 #### 导入是相对的
