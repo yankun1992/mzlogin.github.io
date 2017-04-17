@@ -307,3 +307,46 @@ package object json { //package 关键字给包对象命名， 此处为 json
 使用时通过 `import com.example.json._` 导入包对象中的成员
 
 ### 抽象类型与参数化类型
+#### 参数化类型
+Scala 中参数化类型类似于 java 中的泛型， 但是比 java 泛型更加强大。 在 java 中使用 `<..>` 代表泛型， 在 scala 中使用 `[..]` 代表参数化类型， 因为 scala 中 `<` 与 `>` 常用作方法名。 比如字符串可以声明为：
+```scala
+val strings = List[String] = List("one", "two", "three")
+``` 
+从 [列表标准库] 中可以看见其声明为：
+```scala
+sealed abstract class List[+T] extends ... {...}
+```
+此处的 `T` 就是 `List` 的类型参数。
+类型参数有三种变性：
+- 协变： 声明为 `C[+T]` , 如果 `B` 是 `A` 的子类型， 那么 `C[B]` 自动为 `C[A]` 的子类型。
+- 逆变： 声明为 `C[-T]` , 如果 `B` 是 `A` 的子类型， 那么 `C[A]` 自动为 `C[B]` 的子类型。
+- 不变： 声明为 `C[T]`  , 如果 `B` 是 `A` 的子类型， `C[A]` 与 `C[B]` 没有父子关系。
+
+#### 抽象类型
+抽象类型与参数化类型有所重合， 但不冗余， 两种机制对不同的问题各有优势与不足。 抽象类型使用 `type` 关键字声明一个抽象类型作为其他类型的成员， 子类化的时候将抽象类型具体化：
+```scala
+import java.io._
+abstract class BulkReader {
+  type In
+  val source: In
+  def read: String
+}
+class StringBulkReader(val source: String) extends BulkReader {
+  type In = String
+  def read: String = source
+}
+class FileBulkReader(val source: String) extends BulkReader {
+  type In = File
+  def read: String = {
+    val in = new BufferedInputStream(new FileInputStream(source))
+    val numBytes = in.available()
+    val bytes = new Array[Byte](numBytes)
+    in.read(bytes, 0, numBytes)
+    new String(bytes)
+  }
+}
+
+println(new StringBulkReader("hello scala !").read)
+println(new FileBulkReader(new File("path/to/some/file")).read)
+```
+
