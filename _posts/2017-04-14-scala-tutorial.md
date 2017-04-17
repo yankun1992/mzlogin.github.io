@@ -184,6 +184,10 @@ We're glad you're here.
 $$
 y=f(\color{red}{x})
 $$
+\begin{equation}
+J_\alpha(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \Gamma (m + \alpha + 1)} {\left({ \frac{x}{2} }\right)}^{2m + \alpha}
+\label{eq:当前公式名}
+\end{equation}
 ### 传名参数、传值参数
 ### Option 、 Some 和 None : 避免使用 null
 ### 封闭类代继承
