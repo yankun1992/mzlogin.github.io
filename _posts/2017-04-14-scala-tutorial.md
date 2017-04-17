@@ -180,14 +180,17 @@ We're glad you're here.
 - 元组: `TupleN` ， 例如 `val tup = ("www.yankun.tech", 100)` 类型为 `Tuple2[String, Int]` 简写为 `(String, Int)` 。 使用 `_n` 从元组中提取值， 例如 `tup._1` 。 使用箭头操作符产生二元组 `"www.yankun.tech" -> 100` 。
 
 ### 值、对象、类、类型
-<span style="color: red">内容</span> 
-$$
-y=f(\color{red}{x})
-$$
-\begin{equation}
-J_\alpha(x) = \sum_{m=0}^\infty \frac{(-1)^m}{m! \Gamma (m + \alpha + 1)} {\left({ \color{blue}{\frac{x}{2}} }\right)}^{2m + \alpha}
-\label{eq:sum1}
-\end{equation}
+- 值与对象会在内存中占用一块内存， 一定意义上说， 值与对象是个等效的概念。
+    - 伴生对象： 一个与类同名称的对象， 比如 `List` 对象。 这种对象里含有一个方法 `apply` ， 当任意一个对象包含这个方法的时候， 调用这个方法可以不用写成 `对象.apply(参数)` 可以简写为 `对象(参数)` 。 比如 `List` 的 `apply` 方法， 调用时直接使用 `List(参数)` ， `List` 对象 `apply` 方法类型签名为：
+    - ```scala
+    def apply[T](args: T*): List[T] = {...}
+    ```
+    - 单例对象： 用 `object` 关键字定义的一个单独的对象。
+    - 函数对象： 在 scala 中， 函数与方法是不同的， 函数是一个对象， 就跟字符串对象或者其他对象是一样概念的对象， 之所以我们可以使用 `函数(参数)` 是因为函数对象里面有一个 `apply` 方法， 通过上文我们知道 `函数(参数)` 是 `函数.apply(参数)` 的简写。 而方法是对象的一个字段， 跟一般的方法概念是一样的， 但是我们可以把方法变成一个函数对象， 方法提升为函数对象的方式一般有两种：
+        - 部分应用： 调用方法， 有些参数有值，有点参数没有值，没有值的使用下划线占位， 将会产生一个以下划线为参数列表的函数。
+        - `eta` 变换： `方法 _`
+- 类是构造对象的模板。 一个类可能有多个类型， 比如类 `Array[T]` 的实际类型有 `Array[String]` 、 `Array[Int]` 等。
+    - 伴生类： 与对象同名称的类。
 ### 传名参数、传值参数
 ### Option 、 Some 和 None : 避免使用 null
 ### 封闭类代继承
