@@ -175,8 +175,8 @@ We're glad you're here.
   Have some extra whitespace
 ```
 
-- 符号
-- 函数
+- 符号: `'` + `数字` or `字母` or `下划线` ， 但是第一个字符不能为数字， 或者 `Symbol("id")` , 包含空格的符号 `Symbol("id ")`
+- 函数: `val f: (Int, String) => String = (i, s) => s + i.toString()` , 对象 `f` 的类型为 `Function2[Int. String, String]` (简写为 `(Int, String) => String`)
 - 元组
 
 ### 值、对象、类、类型、函数与方法
