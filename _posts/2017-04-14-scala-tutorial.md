@@ -239,7 +239,9 @@ end
 1111
 2222
 ```
+
 ### Option 、 Some 和 None : 避免使用 null
+当一个返回值可能产生 `null` 的时候， 不直接返回这个值， 而是使用 `Option[T]` 对象对返回值进行封装， 正常值为 `Some(value of type T)` ， null 变为 `None` , `Some` 与 `None` 都是 `Option[T]` 的子类， 对 `Option[T]` 对象使用 `get` 方法获取 `Option[T]` 里的值， 如果是 `None` 将会抛出 `NoSuchElementException` 异常。 可以使用更安全的 `getOrElse` 方法为 `None` 提供一个默认值。 更多知识可以点击 [这里](http://udn.yyuap.com/doc/guides-to-scala-book/chp5-the-option-type.html) 了解。 
 ### 封闭类代继承
 ### 代码组织：文件和名空间
 ### 导入类型及成员
