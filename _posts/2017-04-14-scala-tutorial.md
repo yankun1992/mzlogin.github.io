@@ -201,8 +201,9 @@ We're glad you're here.
 ```scala
 def test1(code: ()=>Unit){ //参数为传值参数(一个函数对象)
     println("start")
-    code() //其实是调用 `code` 对象的 `apply` 方法
+    code() //其实是调用 code 对象的 apply 方法
     println("end")
+    code()
   }
   test1 {//此代码块， 先对代码块求值(代码块的值为最后一个表达式的值)， 再进入方法， 方法内部可以直接使用这个值
     println("1111")
@@ -215,12 +216,14 @@ def test1(code: ()=>Unit){ //参数为传值参数(一个函数对象)
 start
 2222
 end
+2222
 ```
 ```scala
 def test(code : => Unit){ //传名参数
   println("start")
   code // 可以理解为直接展开代码块， 然后对代码块求值， 每次使用都是这个过程， 也可以写成 code()
   println("end")
+  code
 }
 test{// 不对代码块求值， 作为一个整体进入方法
   println("1111")
@@ -233,6 +236,8 @@ start
 1111 
 2222
 end
+1111
+2222
 ```
 ### Option 、 Some 和 None : 避免使用 null
 ### 封闭类代继承
