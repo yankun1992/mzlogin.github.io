@@ -276,6 +276,7 @@ package com {
 ```
 
 - 包不能在类或对象中定义
+
 ### 导入类型及成员
 ```scala
 import java.awt._                //导入 awt 下所有成员
