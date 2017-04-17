@@ -335,7 +335,7 @@ class StringBulkReader(val source: String) extends BulkReader {
   type In = String
   def read: String = source
 }
-class FileBulkReader(val source: String) extends BulkReader {
+class FileBulkReader(val source: File) extends BulkReader {
   type In = File
   def read: String = {
     val in = new BufferedInputStream(new FileInputStream(source))
