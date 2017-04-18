@@ -431,9 +431,29 @@ scala 对这两种方式都有支持。 [后面的章节](#深入-dsl)会有详�
 scala 中 `if` 表达式的返回值是类型是所有分支条件的最小上界。
 ### for 推导式
 #### for 循环
+类似于 java 中的 for 循环， 执行只会带来副作用：
+```scala
+val dogs = List("Bob", "Tom", "putty", "Kaiven")
+for (dog <- dogs) println(dog)
+```
+表达式没有返回值。
+
 #### 生成器表达式
-#### 保护式
+像上节 `dog <- dogs` 这样的表达式被称为 `生成式器表达式 (generator expression)`, 操作符 `<-` 会对集合进行遍历。
+#### 保护式 (guard)
+加入一个或多个 `if` 表达式进行更加细粒度的操作， 这种表达式被称为 `保护式 (guard)` , 在 Haskell 常被翻译为 `守卫` ：
+```scala
+for {
+  dog <- dogs
+  if dog.length > 3 
+  // if dog.length < 8 // 可以加入多个
+  // if dog.length > 3 && dog.length <8 // 还可以这样写
+  } println(dog)
+
+```
+
 #### Yielding
+
 #### 扩展作用域与值定义
 ### 其他循环结构
 #### scala 中的 while
