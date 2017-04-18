@@ -371,7 +371,36 @@ class FileBulkReader(val source: File) extends BulkReader[File] {...}
 > 实际上根据优先级规则， 包含点与身=省去点并不是完全一致的， `1 + 2 * 3` 与 `1.+(2).*(3)` 是不一样的。 如果表达式中包含点号， 那么点号具有最高优先级。
 
 类似的调用无参方法可以省略点号， 这种方法称之为后缀表达式， 不过后缀表达式容易产生歧义。 直接使用会引发一个警告， 可以使用 `import scala.language.postfixOps` 开启这个特性去除警告。
-### 省略调用方法的点
+### 无参数方法的括号
+scala 允许用户灵活决定是否使用括号。
+- 定义无参方法时省略了括号， 调用时也必须省略括号。
+- 定义时添加了括号， 调用时可以选择是否保留括号。
+
+注意以下写法的迷惑性, 思考一下为什么：
+```scala
+def f1   = () => println("hello")
+def f2() = () => println("hello")
+
+f1       //res0: () => println("hello")
+f1()     //hello
+f2       //res1: () => println("hello")
+f2()     //res2: () => println("hello")
+f2()()   //hello
+```
+
+> scala 社区的惯例是： 定义无副作用的无参方法时省略括号， 定义有副作用的方法添加括号。 运行 scala 添加 `-Xlint` 对不满足这种惯例的写法发出警告。
+
+这种中缀与后缀的写法结合类型推断可以使代码变得更加简洁， 如下着几种写法是等效的：
+```scala
+def isEven(n: Int) = (n % 2) == 0
+List(1,2,3,4).filter((i: Int) => isEven(i)).foreach((i: Int) => println(i))
+List(1,2,3,4).filter(i => isEven(i)).foreach(i => println(i))
+List(1,2,3,4).filter(isEven).foreach(println)
+List(1,2,3,4) filter isEven foreach println
+```
+
+需要注意的是这种写法每个方法都是接收的单一参数， 如果方法链中某一放啊接收 0 个或大于 1 个参数， 编译器就会困惑， 如果出现了这种情况， 请部分或全部补上点号。
+
 ### 优先级规则
 ### 领域特定语言 (DSL)
 ### if
