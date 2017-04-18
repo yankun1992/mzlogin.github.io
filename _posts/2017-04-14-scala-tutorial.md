@@ -449,12 +449,22 @@ for {
   // if dog.length < 8 // 可以加入多个
   // if dog.length > 3 && dog.length <8 // 还可以这样写
   } println(dog)
-
 ```
 
 #### Yielding
+使用 `yield` 在 for 推导式中生成新的集合。
+```scala
+val filterdog = for {
+  dog <- dogs
+  if dog.length > 3 
+  if dog.length > 3 && dog.length < 8 
+  } yield dog
+// filterdog = List("putty", "Kaiven")
+``` 
+`for-yield` 表达式生成的集合类型将根据被遍历集合推导而来。
 
 #### 扩展作用域与值定义
+
 ### 其他循环结构
 #### scala 中的 while
 #### scala 中的 do-while
