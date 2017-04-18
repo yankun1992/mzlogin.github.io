@@ -463,12 +463,13 @@ val filterdog = for {
 ``` 
 `for-yield` 表达式生成的集合类型将根据被遍历集合推导而来。
 
-#### 扩展作用域与值定义
-
 ### 其他循环结构
 #### scala 中的 while
+跟 java 中 while 类似。
 #### scala 中的 do-while
+跟 java 中 do-while 类似。
 ### 条件操作符
+跟 java 中类似， 需要注意的是 `&&` 是 `||` 短路操作， 一旦得知结果， 便会停止对表达式估值。 另外需要注意的是 `==` 和 `!=` 在 scala 中是值比较， 跟 java 中 `equals` 等效， 而 java 中， `==` 和 `!=` 是引用比较。 scala 中引用比较是方法 `eq` 。
 ### try catch final
 ### 名字调用与值调用
 ### 惰性赋值
