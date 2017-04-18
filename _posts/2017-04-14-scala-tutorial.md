@@ -424,3 +424,20 @@ List(1,2,3,4) filter isEven foreach println
 ## 模式匹配
 ### 简单匹配
 ### match 中的值、 变量和类型
+## 隐式详解
+## scala 函数式编程
+## 深入学习 for 推导式
+## scala 面向对象编程
+## 特质 Trait
+## scala 对象系统
+## scala 集合库
+## 可见性规则
+## scala 类型系统
+## 高级函数式编程
+## 并发工具
+## scala 与大数据
+## scala 动态调用
+## 深入 DSL
+## 与 java 互操作
+## 应用程序设计
+## 元编程： 宏与反射
