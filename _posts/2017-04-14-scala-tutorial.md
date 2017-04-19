@@ -435,6 +435,13 @@ scala 中 `if` 表达式的返回值是类型是所有分支条件的最小上�
 ```scala
 val dogs = List("Bob", "Tom", "putty", "Kaiven")
 for (dog <- dogs) println(dog)
+val maybedogs = List(Some("Bob"), None, Some("Tom"), None, Some("putty"))
+val dogs2 = for {
+  dogoption <- maybedogs
+  dog <- dogoption
+} yield {
+  dog
+} //dog = List("Bob", "Tom", "putty")
 ```
 表达式没有返回值。
 
