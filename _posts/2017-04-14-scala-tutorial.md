@@ -471,6 +471,27 @@ val filterdog = for {
 ### 条件操作符
 跟 java 中类似， 需要注意的是 `&&` 是 `||` 短路操作， 一旦得知结果， 便会停止对表达式估值。 另外需要注意的是 `==` 和 `!=` 在 scala 中是值比较， 跟 java 中 `equals` 等效， 而 java 中， `==` 和 `!=` 是引用比较。 scala 中引用比较是方法 `eq` 。
 ### try catch final
+```scala
+import scala.io.Source
+import scala.util.control.NonFatal
+
+object TryCatch {
+  def main(args: Array[String]): Unit = {
+    var source: Option[Source] = None
+    try {
+      source = Some(Source.fromFile(args(0)))
+    } catch {
+      case NonFatal(ex) => println(ex)
+    } finally {
+     for (s <- source) {
+       println("closing file ...")
+       s.close()
+     }
+    }
+  }
+}
+```
+
 ### 名字调用与值调用
 ### 惰性赋值
 ### 枚举
