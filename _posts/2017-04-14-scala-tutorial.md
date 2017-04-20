@@ -615,7 +615,7 @@ class LoggedServiceImportante(name: String)
   extends ServiceImportante(name) with StdoutLogging {...}
 ```
 
-可以使用 `extend` 混入多个特质。
+可以使用 `with` 混入多个特质。
 
 ## 模式匹配
 在 C 、 java 等语言中有 `case` 语句用来匹配表达式的值， 在 scala 中， 这一功能被大大的扩展， 不仅可以匹配表达式的值， 还可以匹配类型、通配符、序列、正则表达式， 甚至可以获取对象内部的状态， 这种对象内部的状态的获取循序一定的协议， 对象内部可见性由该类型的实现控制。 对象状态的获取一般称为 `提取` 或 `解构` 。 scala 的 `match` 语句中， 匹配值会按照 `case` 语句的先后顺序进行匹配， 一旦匹配成功就结束匹配， 不用 `break` 手动结束匹配。
