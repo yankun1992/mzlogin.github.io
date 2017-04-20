@@ -554,6 +554,53 @@ println(f"$$${gross}%.2f  $$${net}%.2f")
 在深入学习`隐式转换`后， 我们甚至可以定义自己的字符串插入器。
 
 ### Trait初探: scala 中的接口和 “混入”
+`trait` 是 scala 用来表示抽象的一个强大的武器， 很多高级的抽象都可以借助 `trait` 来实现。 在后面的章节会进行详细的讲解， 这儿只是对这一特性进行一些简单的介绍。 `trait` 可以使 scala 很容易实现`组合`这一抽象， 这种抽象比继承粒度更加小，更加精细， 可以很容易打破 java 对象模型的一些局限。 
+- 在 `trait` 中可以声明示例字段， 并选择是否定义这些字段。
+- 还可以声明或定义类型。
+
+以下为一个使用 `trait` 混入日志的功能的一个示例：
+
+```scala
+class ServiceImportante(val name: String) {
+  def work(i: Int): Int = {
+    println(s"ServiceImportante: Doing important work! $i")
+    i + 1
+  }
+}
+val service1 = new ServiceImportante("uno")
+(1 to 3) foreach (i => println(s"Result: ${service1.work(i)}"))
+
+// BEGIN LOGGING
+trait Logging {
+  def info   (message: String): Unit
+  def warning(message: String): Unit
+  def error  (message: String): Unit
+}
+trait StdoutLogging extends Logging {
+  def info   (message: String) = println(s"INFO:    $message")
+  def warning(message: String) = println(s"WARNING: $message")
+  def error  (message: String) = println(s"ERROR:   $message")
+}
+// END LOGGING
+
+// BEGIN MIXED
+val service2 = new ServiceImportante("dos") with StdoutLogging {
+  override def work(i: Int): Int = {
+    info(s"Starting work: i = $i")
+    val result = super.work(i)
+    info(s"Ending work: i = $i, result = $result")
+    result
+  }
+}
+(1 to 3) foreach (i => println(s"Result: ${service2.work(i)}"))
+
+```
+`new ServiceImportante("dos") with StdoutLogging {...}` 的方式其实是匿名类， 如果想多次使用这个类， 可以实际声明一个类：
+```scala
+class LoggedServiceImportante(name: String) extends ServiceImportante(name) with StdoutLogging {...}
+```
+
+可以使用 `extend` 混入多个特质。
 
 ## 模式匹配
 ### 简单匹配
