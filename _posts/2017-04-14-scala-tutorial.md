@@ -672,7 +672,7 @@ val y = 1
 case y => "int 1" //不等效于 case 1 => “int 1”, 而是匹配所有值
 case `y` => "int 1" //等效于 case 1 => {...}
 ```
-
+case 子句可以包含或逻辑， 比如 `case _: Int | _: Double => {...}` 。
 ### 序列的匹配
 ### 元组的匹配
 ### case 中的 guard 语句
