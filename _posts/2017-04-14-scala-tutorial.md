@@ -219,7 +219,6 @@ start
 end
 2222
 ```
-
 ```scala
 def test(code : => Unit){ //传名参数
   println("start")
@@ -240,6 +239,21 @@ start
 end
 1111
 2222
+```
+使用传值参数可以很容易定义一些看起来就像语言本身支持的一些特性， 比如定义我们自己的条件循环：
+```scala
+@annotation.tailrec                                                  // <1>
+def continue(conditional: => Boolean)(body: => Unit) {               // <2>
+  if (conditional) {                                                 // <3>
+    body                                                             // <4>
+    continue(conditional)(body)
+  }
+}
+var count = 0                                                        // <5>
+continue(count < 5) {
+  println(s"at $count")
+  count += 1
+}
 ```
 
 ### Option 、 Some 和 None : 避免使用 null
