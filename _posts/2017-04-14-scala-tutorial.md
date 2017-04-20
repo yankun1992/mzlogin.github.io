@@ -540,8 +540,20 @@ for (breed <- Breed.values) println(s"${breed.id}\t$breed")
 在 scala 中枚举使用并不多， 多数情况可以通过使用 case 类替代， 但是 case 类比枚举更加重量。
 
 ### 可插入字符串
+- `s` 前缀： `s"fool ${expr}"`
+    - `expr` 为表达式： 对表达式求值， 对值调用 `toString` 方法后插入， 没有 `toString` 方法会报错。
+    - `expr` 为字符串： 直接插入。
+    - 要输入 `$` 使用 `$$` 。
+- `f` 前缀： 
+```scala
+val gross   = 100f
+val net     = 64f
+println(f"$$${gross}%.2f  $$${net}%.2f")
+// 结果 "100.00  64.00"
+```
+在深入学习`隐式转换`后， 我们甚至可以定义自己的字符串插入器。
 
-### Trail: scala 中的接口和 “混入”
+### Trait初探: scala 中的接口和 “混入”
 
 ## 模式匹配
 ### 简单匹配
