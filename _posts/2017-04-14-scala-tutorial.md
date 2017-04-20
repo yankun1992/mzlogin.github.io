@@ -611,7 +611,8 @@ val service2 = new ServiceImportante("dos") with StdoutLogging {
 ```
 `new ServiceImportante("dos") with StdoutLogging {...}` 的方式其实是匿名类， 如果想多次使用这个类， 可以实际声明一个类：
 ```scala
-class LoggedServiceImportante(name: String) extends ServiceImportante(name) with StdoutLogging {...}
+class LoggedServiceImportante(name: String) 
+  extends ServiceImportante(name) with StdoutLogging {...}
 ```
 
 可以使用 `extend` 混入多个特质。
