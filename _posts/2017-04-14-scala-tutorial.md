@@ -618,8 +618,61 @@ class LoggedServiceImportante(name: String)
 可以使用 `extend` 混入多个特质。
 
 ## 模式匹配
+在 C 、 java 等语言中有 `case` 语句用来匹配表达式的值， 在 scala 中， 这一功能被大大的扩展， 不仅可以匹配表达式的值， 还可以匹配类型、通配符、序列、正则表达式， 甚至可以获取对象内部的状态， 这种对象内部的状态的获取循序一定的协议， 对象内部可见性由该类型的实现控制。 对象状态的获取一般称为 `提取` 或 `解构` 。 scala 的 `match` 语句中， 匹配值会按照 `case` 语句的先后顺序进行匹配， 一旦匹配成功就结束匹配， 不用 `break` 手动结束匹配。
 ### 简单匹配
+匹配一些简单的值， 跟 java 中类似：
+```scala
+val bools = Seq(true, false)
+for (bool <- bools) {
+  bool match {
+    case true => println("Got heads")
+    case false => println("Got tails")
+  }
+}
+```
+
 ### match 中的值、 变量和类型
+`case` 语句可以是一个带类型标注的变量， 匹配成功后值会赋给对应的变量：
+```scala
+for {
+  x <- Seq(1, 2, 2.7, "one", "two", 'four)                           // <1>
+} {
+  val str = x match {                                                // <2>
+    case 1          => "int 1"                                       // <3>
+    case i: Int     => "other int: "+i                               // <4>
+    case d: Double  => "a double: "+x                                // <5>
+    case "one"      => "string one"                                  // <6>
+    case s: String  => "other string: "+s                            // <7>
+    case unexpected => "unexpected value: " + unexpected             // <8>
+  }
+  println(str)                                                       // <9>
+}
+```
+上例中最后一个 `case` 语句没有类型标注， 可以匹配任何类型的值， 相当与其他语言中的 `default` 。 匹配成功的 case 语句 `=>` 后的部分为 match 语句的返回值， match 语句返回值的类型为所有 case 子句返回值类型的`最小父类型`。 因为变量 `x` 在所有子句中可用， 所以可以省略 case 子句中的变量， 使用 `_` 替代变量名， 只需在后面加上类型标注。
+```scala
+for {
+  x <- Seq(1, 2, 2.7, "one", "two", 'four)
+} {
+  val str = x match {
+    case 1          => "int 1"
+    case _: Int     => "other int: "+x
+    case _: Double  => "a double: "+x
+    case "one"      => "string one"
+    case _: String  => "other string: "+x
+    case _          => "unexpected value: " + x
+  }
+  println(str)
+}
+```
+> 除了偏函数， 所有 match 语句都必须完全覆盖所有输入， 一般最后一个语句使用 `case _ => {...}` 匹配所有情况。
+
+在 case 语句中使用已有的变量来匹配的时候需要给变量加上反引号， 否则 case 语句会忽略之前的变量， 而将其作为一个能匹配所有的值的子句。
+```scala
+val y = 1
+case y => "int 1" //不等效于 case 1 => “int 1”, 而是匹配所有值
+case `y` => "int 1" //等效于 case 1 => {...}
+```
+
 ### 序列的匹配
 ### 元组的匹配
 ### case 中的 guard 语句
