@@ -514,8 +514,33 @@ object ExpensiveRes{
 }
 ```
 使用 `lazy` 将执行过程推迟。 在对象第一次使用都是时候才进行初始化。
+
 ### 枚举
+scala 没有使用语法来专门支持枚举， 而是使用标准库的 `Enumeration` 类。 
+```scala
+object Breed extends Enumeration {
+//  type Breed = Value
+  val doberman = Value("Doberman Pinscher")
+  val yorkie   = Value("Yorkshire Terrier")
+  val scottie  = Value("Scottish Terrier")
+  val dane     = Value("Great Dane")
+  val portie: Breed.Value   = Value("Portuguese Water Dog")
+}
+
+// print a list of breeds and their IDs
+println("ID\tBreed")
+for (breed <- Breed.values) println(s"${breed.id}\t$breed")
+```
+通过调用 `values` 方法， 可以像集合那样处理枚举值， 每个枚举值的类型为 `Breed.Value` , `Value` 方法有几个重载版本：
+- 接收单一参数： 如代码中示例
+- 无参的 `Value` 方法： 以对象名作为 `Value` 方法输入参数
+- 接收 ID 值， 字符串默认为对象名
+- 接收 ID 值， 字符串
+
+在 scala 中枚举使用并不多， 多数情况可以通过使用 case 类替代， 但是 case 类比枚举更加重量。
+
 ### 可插入字符串
+
 ### Trail: scala 中的接口和 “混入”
 
 ## 模式匹配
