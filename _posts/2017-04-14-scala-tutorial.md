@@ -673,7 +673,17 @@ case y => "int 1" //不等效于 case 1 => “int 1”, 而是匹配所有值
 case `y` => "int 1" //等效于 case 1 => {...}
 ```
 case 子句可以包含或逻辑， 比如 `case _: Int | _: Double => {...}` 。
+
 ### 序列的匹配
+`Seq` 是具体集合类型的父类型， 这些集合支持以确定顺序遍历其元素， 如 `List` 和 `Vector` 。
+```scala
+def seqToString[T](seq: Seq[T]): String = seq match {                
+  case head +: tail => s"$head +: " + seqToString(tail)              
+  case Nil => "Nil"                                                  
+}
+```
+在上例代码中， 如果 `seq` 有一个或一个以上元素， 那么将会匹配第一个 case 语句， 没有元素将会匹配第二个 case 语句。 注意第一个语句的写法， `+:` 有点类似于 `::` ， 其实他们的作用相似， `:` 结尾的方法是右结合的， 但是在 case 语句中的和构造的方法是不同的， 这儿起作用的是一个叫做 `提取器的` 特殊方法， 提取器将特定的值提取出来， 赋给对应 case 语句中的相关变量。
+
 ### 元组的匹配
 ### case 中的 guard 语句
 ### case 类的匹配
