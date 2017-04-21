@@ -877,8 +877,27 @@ def doSeqMatch[T](seq: Seq[T]): String = seq match {
 ```
 
 ### 封闭继承层级与全覆盖匹配
+模式匹配的最后一个 case 子句一般都使用 `case _ => ...` 处理额外的情况， 但是如果匹配的类型是一个使用 `sealed` 定义的类型， 而且在 case 语句中处理了所有的子类的情况， 那么末尾就没有必要使用 `_` 来处理额外的情况， 因为 `sealed` 关键字使不可能有其它的情况出现， 这种情况叫做全覆盖匹配。 如果对没有 `seaded` 关键字的类型进行匹配， 那么就不能使用全覆盖匹配， 因为 API 的使用者可以自由的对类进行派生， match 子句不能预测用户的派生， 就必须使用 `_` 给出额外值的默认处理。 [示例代码](https://github.com/deanwampler/prog-scala-2nd-ed-code-examples/blob/master/src/main/scala/progscala2/patternmatching/http.sc)
+
 ### 模式匹配的其他用法
-### 关于模式匹配的评价
+模式匹配这一强大的特性不仅局限于 case 语句， 定义变量也可以运用， 包括 for 中的变量定义。
+```scala
+case class Address(street: String, city: String, country: String)
+case class Person(name: String, age: Int, address: Address)
+
+val Person(name, age, Address(_, city, )) = 
+  Person("Alice",   25, Address("1 Scala Lane", "Chicago", "USA"))
+
+val h1 +: h2 +: tail = Vector(1,2,3,4,5)
+
+val maybedogs = List(Some("Bob"), None, Some("Tom"), None, Some("putty"))
+val dogs2 = for {
+  Some(dog) <- maybedogs
+} yield {
+  dog
+} //dog = List("Bob", "Tom", "putty")
+```
+
 ## 隐式详解
 ## scala 函数式编程
 ## 深入学习 for 推导式
