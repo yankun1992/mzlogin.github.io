@@ -808,6 +808,28 @@ def unapplySeq[T](WhereIn[T]): Option[(String, T, Seq[T])]
 ```
 匹配时最后一项必须要 `_*` ， 比如 `case WhereIn(col, v1, _*) => ...`， 但是如果要获取最后的 `Seq[T]` 类型的值， 可以使用 `@` 来获取, 在 Haskell 中这种写法叫做 AS 语法： `case WhereIn(col, v1, vs @ _*) => ...`
 ### 正则表达式的匹配
+正则表达式可以很方便的从符号特定解构的字符串中提取数据：
+```scala
+val BookExtractorRE = """Book: title=([^,]+),\s+author=(.+)""".r     // <1>
+val MagazineExtractorRE = """Magazine: title=([^,]+),\s+issue=(.+)""".r
+
+val catalog = Seq(
+  "Book: title=Programming Scala Second Edition, author=Dean Wampler",
+  "Magazine: title=The New Yorker, issue=January 2014",
+  "Unknown: text=Who put this here??"
+)
+
+for (item <- catalog) {
+  item match {
+    case BookExtractorRE(title, author) =>                           // <2>
+      println(s"""Book "$title", written by $author""")
+    case MagazineExtractorRE(title, issue) =>
+      println(s"""Magazine "$title", issue $issue""")
+    case entry => println(s"Unrecognized entry: $entry")
+  }
+}
+```
+
 ### case 语句的变量绑定
 ### 类型匹配
 ### 封闭继承层级与全覆盖匹配
