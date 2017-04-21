@@ -738,7 +738,17 @@ person match {
   case Person(name, 25, Address(_, "Chicago", _)) ...
 }
 ```
-遇见以上 case 语句时， 实际是调用了 Person 单例对象的 unapply 方法对 person 对象内部状态的提取， 并进行相关匹配与case语句相关变量的赋值。
+遇见以上 case 语句时， 实际是调用了 Person 单例对象的 unapply 方法对 person 对象内部状态的提取， 并进行相关匹配与case语句相关变量的赋值。 unapply 方法的签名为：
+```scala
+def unapply(object: ObjectType): Option[TupleN[...]] = ...
+```
+N 为提取值的个数， 编译器提取值后依次与 case 语句进行比对， 不匹配就会返回 None 对 case 子句进行否定， 然后比对下一个 case 子句。 匹配后才进行相关的变量赋值。
+> 为了性能上的提升， 从 Scala 2.11.1 开始放松了对 unapply 方法必须返回 Option 的限制， 只要返回的类型中有以下方法就可：
+```scala
+def isEmpty: Boolean
+def get: T
+```
+
 ### unapplySeq 方法
 ### 可变参数列表的匹配
 ### 正则表达式的匹配
