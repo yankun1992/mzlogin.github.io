@@ -682,12 +682,63 @@ def seqToString[T](seq: Seq[T]): String = seq match {
   case Nil => "Nil"                                                  
 }
 ```
-在上例代码中， 如果 `seq` 有一个或一个以上元素， 那么将会匹配第一个 case 语句， 没有元素将会匹配第二个 case 语句。 注意第一个语句的写法， `+:` 有点类似于 `::` ， 其实他们的作用相似， `:` 结尾的方法是右结合的， 但是在 case 语句中的和构造的方法是不同的， 这儿起作用的是一个叫做 `提取器的` 特殊方法， 提取器将特定的值提取出来， 赋给对应 case 语句中的相关变量。
 
 ### 元组的匹配
+```scala
+val langs = Seq(
+  ("Scala",   "Martin", "Odersky"),
+  ("Clojure", "Rich",   "Hickey"),
+  ("Lisp",    "John",   "McCarthy"))
+
+for (tuple <- langs) {
+  tuple match {
+    case ("Scala", _, _) => println("Found Scala")
+    case (lang, first, last) =>
+      println(s"Found other language: $lang ($first, $last)")
+  }
+}
+```
+
 ### case 中的 guard 语句
+```scala
+for (i <- Seq(1,2,3,4)) {
+  i match {
+    case _ if i%2 == 0 => println(s"even: $i")
+    case _             => println(s"odd:  $i")
+  }
+}
+```
+给匹配语句加一些限制条件。
+
 ### case 类的匹配
+```scala
+case class Address(street: String, city: String, country: String)
+case class Person(name: String, age: Int, address: Address)
+
+val alice   = Person("Alice",   25, Address("1 Scala Lane", "Chicago", "USA"))
+val bob     = Person("Bob",     29, Address("2 Java Ave.",  "Miami",   "USA"))
+val charlie = Person("Charlie", 32, Address("3 Python Ct.", "Boston",  "USA"))
+
+for (person <- Seq(alice, bob, charlie)) {
+  person match {
+    case Person("Alice", 25, Address(_, "Chicago", _)) => println("Hi Alice!")
+    case Person("Bob", 29, Address("2 Java Ave.", "Miami", "USA")) => 
+      println("Hi Bob!")
+    case Person(name, age, _) => 
+      println(s"Who are you, $age year-old person named $name?")
+  }
+}
+```
+注意第一个 case 语句， 在 case 语句中可以进行深度匹配。 先进行了 `Person` 的提取， 然后对里面的 `Address` 进行了提取。
+
 ### unapply 方法
+通过上面的几个示例， 已经发现了模式对任意类型对象匹配强大的能力， 但是这种强大的能力是怎么做到的呢？ 在之前我们了解到 case 类中有一个 apply 方法进行构造， 跟单例对象中的 apply 方法用于构造一样。 所有基于对称的思想， 存在一个叫 `unapply` 的方法用于解构对象， 这个方法用于将对象内部的状态提取出来， 和 `apply` 的作用完全相反。 当遇到下面形式的类型匹配表达式的时候， 该方法就会被调用。
+```scala
+person match {
+  case Person(name, 25, Address(_, "Chicago", _)) ...
+}
+```
+遇见以上 case 语句时， 实际是调用了 Person 单例对象的 unapply 方法对 person 对象内部状态的提取， 并进行相关匹配与case语句相关变量的赋值。
 ### unapplySeq 方法
 ### 可变参数列表的匹配
 ### 正则表达式的匹配
