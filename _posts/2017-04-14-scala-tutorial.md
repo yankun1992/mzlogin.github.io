@@ -778,6 +778,25 @@ Seq(w1, w2) foreach { w =>
 List 有一个类似的对象 `::` ， 如果逆序处理序列， 有一个 `:+` 对象， 同样也有一个 `:+` 方法在序列末尾追加元素。
 
 ### unapplySeq 方法
+`Seq` 伴随对象里还包含一个 `unapplySeq` 方法。 用于更加灵活的提取序列中不固定数量的值：
+```scala
+def windows[T](seq: Seq[T]): String = seq match {
+  case Seq(head1, head2, _*) =>
+    s"($head1, $head2), " + windows(seq.tail)
+  case Seq(head, _*) => 
+    s"($head, _), " + windows(seq.tail)
+  case Nil => "Nil"
+}
+```
+不过我们仍然可以使用 `+:` 的方式进行匹配：
+```scala
+def windows2[T](seq: Seq[T]): String = seq match {
+  case head1 +: head2 +: tail => s"($head1, $head2), " + windows2(seq.tail)
+  case head +: tail => s"($head, _), " + windows2(tail)
+  case Nil => "Nil"
+}
+```
+
 ### 可变参数列表的匹配
 ### 正则表达式的匹配
 ### case 语句的变量绑定
