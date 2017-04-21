@@ -810,7 +810,7 @@ def unapplySeq[T](WhereIn[T]): Option[(String, T, Seq[T])]
 ### 正则表达式的匹配
 正则表达式可以很方便的从符号特定解构的字符串中提取数据：
 ```scala
-val BookExtractorRE = """Book: title=([^,]+),\s+author=(.+)""".r     // <1>
+val BookExtractorRE = """Book: title=([^,]+),\s+author=(.+)""".r
 val MagazineExtractorRE = """Magazine: title=([^,]+),\s+issue=(.+)""".r
 
 val catalog = Seq(
@@ -821,7 +821,7 @@ val catalog = Seq(
 
 for (item <- catalog) {
   item match {
-    case BookExtractorRE(title, author) =>                           // <2>
+    case BookExtractorRE(title, author) =>
       println(s"""Book "$title", written by $author""")
     case MagazineExtractorRE(title, issue) =>
       println(s"""Magazine "$title", issue $issue""")
@@ -852,6 +852,30 @@ for (person <- Seq(alice, bob, charlie)) {
 ```
 
 ### 类型匹配
+你或许会认为如下代码能按照你预计的想法运行：
+```scala
+for {
+  x <- Seq(List(5.5,5.6,5.7), List("a", "b")) 
+} yield (x match {
+  case seqd: Seq[Double] => ("seq double", seqd)
+  case seqs: Seq[String] => ("seq string", seqs)
+  case _                 => ("unknown!", x)
+})
+```
+但其实并不能如你所愿！！！ 原因就是 scala 主要运行与 JVM 中， JVM 会有 `类型擦除` , 这是一个历史遗留问题， 这导致 `Seq[Double]` 与 `Seq[String]` 不能区分， 第一个 `Seq[Double]` 将匹配任何 `Seq` 类型。
+
+一个不太美观的解决方式是进行嵌套匹配：
+```scala
+def doSeqMatch[T](seq: Seq[T]): String = seq match {
+  case Nil => "Nothing"
+  case head +: _ => head match {
+    case _ : Double => "Double"
+    case _ : String => "String"
+    case _ => "Unmatched seq element"
+  }
+}
+```
+
 ### 封闭继承层级与全覆盖匹配
 ### 模式匹配的其他用法
 ### 关于模式匹配的评价
