@@ -749,6 +749,34 @@ def isEmpty: Boolean
 def get: T
 ```
 
+上面几例是通过单例对象的 unapply 方法对相应对象内部状态进行提取， 接下来我们看看对序列的提取。 scala 在库中定义了一个名为 `+:` 特殊的单例对象， 在这个对象中有个 unapply 方法， 我们可以简单的理解这个方法的类型签名为 (真实情况要比这复制)：
+```scala
+object +: {
+  def unapply[T, Coll](collection: Coll): Option[(T, Coll)] = {...}
+}
+```
+所以对于 `Seq` 我们可以使用如下的匹配方式：
+```scala
+def seqToString[T](seq: Seq[T]): String = seq match {
+  case +:(head, tail) => s"$head +: " + seqToString(tail)
+  case Nil => "Nil"
+}
+```
+等等， 这怎么与上文中[序列的匹配](#序列的匹配)不同呢？！ 这其实是 scala 编译器的一个语法糖： 包含两个类型参数的类型可以写为中缀表达式， 例如下面的用法。
+```scala
+case class With[A, B](a: A, b: B)
+val w1: With[String, Int] = With("Foo", 1)
+val w2: String With Int = With("Bar", 2)
+
+Seq(w1, w2) foreach { w =>
+  w match {
+    case s With i => {...}
+    case _        => {...}
+  }
+}
+```
+List 有一个类似的对象 `::` ， 如果逆序处理序列， 有一个 `:+` 对象， 同样也有一个 `:+` 方法在序列末尾追加元素。
+
 ### unapplySeq 方法
 ### 可变参数列表的匹配
 ### 正则表达式的匹配
