@@ -775,7 +775,7 @@ Seq(w1, w2) foreach { w =>
   }
 }
 ```
-List 有一个类似的对象 `::` ， 如果逆序处理序列， 有一个 `:+` 对象， 同样也有一个 `:+` 方法在序列末尾追加元素。
+List 有一个类似的对象 `::` ， 如果逆序处理序列， 有一个 `:+` 对象， 同样也有一个 `:+` 方法在序列末尾追加元素。 *注意区分一个是对象一个是方法，不要搞混淆*。
 
 ### unapplySeq 方法
 `Seq` 伴随对象里还包含一个 `unapplySeq` 方法。 用于更加灵活的提取序列中不固定数量的值：
@@ -798,6 +798,15 @@ def windows2[T](seq: Seq[T]): String = seq match {
 ```
 
 ### 可变参数列表的匹配
+使用可变参数定义 case 类时， 自动生成的提取器方法为 `unapplySeq` , 所以只能使用对应的提取方法匹配提取的值， 比如定义 case 类为：
+```scala
+case class WhereIn[T](columnName: String, val1: T, vals: T*)
+```
+那么自动生成的提取器方法为：
+```scala
+def unapplySeq[T](WhereIn[T]): Option[(String, T, Seq[T])]
+```
+匹配时最后一项必须要 `_*` ， 比如 `case WhereIn(col, v1, _*) => ...`， 但是如果要获取最后的 `Seq[T]` 类型的值， 可以使用 `@` 来获取, 在 Haskell 中这种写法叫做 AS 语法： `case WhereIn(col, v1, vs @ _*) => ...`
 ### 正则表达式的匹配
 ### case 语句的变量绑定
 ### 类型匹配
