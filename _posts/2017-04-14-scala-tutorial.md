@@ -831,6 +831,26 @@ for (item <- catalog) {
 ```
 
 ### case 语句的变量绑定
+在对象提取类值，可以将值绑定到对应的变量， 也可以使用 AS 语法整体绑定， 比如修改之前的例子：
+```scala
+case class Address(street: String, city: String, country: String)
+case class Person(name: String, age: Int, address: Address)
+
+val alice   = Person("Alice",   25, Address("1 Scala Lane", "Chicago", "USA"))
+val bob     = Person("Bob",     29, Address("2 Java Ave.",  "Miami",   "USA"))
+val charlie = Person("Charlie", 32, Address("3 Python Ct.", "Boston",  "USA"))
+
+for (person <- Seq(alice, bob, charlie)) {
+  person match {
+    case p @ Person("Alice", 25, address) => println(s"Hi Alice! $p")
+    case p @ Person("Bob", 29, a @ Address(street, city, country)) => 
+      println(s"Hi ${p.name}! age ${p.age}, in ${a.city}")
+    case p @ Person(name, age, _) => 
+      println(s"Who are you, $age year-old person named $name? $p")
+  }
+}
+```
+
 ### 类型匹配
 ### 封闭继承层级与全覆盖匹配
 ### 模式匹配的其他用法
