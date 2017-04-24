@@ -900,8 +900,48 @@ val dogs2 = for {
 隐式是 scala 中独一无二、强大但有争议的特性， 其可以减少代码， 向已有类型中注入新方法， 还有一系列工具用于构建 DSL 。
 
 ### 隐式参数
+如果一个环境中的一个对象被多次作为参数使用， 那么为了减少样本代码， 可以使用 `implicit` 关键字将对象声明为隐式对象， 使用该对象的方法或函数的参数声明为隐式参数， 那么调用函数的时候就不必去显示的使用对象， 可以忽略该参数， 编译器会自动使用环境中的对象作为参数。 比如计算税后收入， 当税率固定， 那么可以将税率声明为隐式对象。
+```scala
+object Main {
+  def main(args: Array[String]): Unit = {
+    implicit val rate: Float = 0.05F
+    def calcTax(amount: Float)(implicit rate: Float): Float = amount * rate
+  
+    val amount = 100F
+    println(s"Tax on $amount = ${calcTax(amount)}")
+  }
+}
+```
+有时候单独的对象不能处理一些复杂的情况， 我们可以使用下面的方式：
+```scala
+object Main {
+  def main(args: Array[String]): Unit = {
+    case class ComplicatedSalesTaxData(
+      baseRate: Float,
+      isTaxHoliday: Boolean,
+      storeId: Int)
+  
+    implicit def rate(implicit cstd: ComplicatedSalesTaxData): Float = 
+      if (cstd.isTaxHoliday) 0.0F
+      else cstd.baseRate + extraTaxRateForStore(cstd.storeId)
+    
+    implicit val myStore = ComplicatedSalesTaxData(0.06F, false, 1010)
+    
+    val amount = 100F
+    println(s"Tax on $amount = ${calcTax(amount)}")
+  }
+}
+```
+`calcTax(amount)` 先使用 `rate` , 这儿的 `rate` 是一个返回 Float 的方法， `rate` 使用 `myStore` 隐式参数。
+
 ### 隐式参数适用场景
 #### 执行上下文
+例如在前文中介绍的 `Future` 对象， 其 apply 方法的声明为：
+```scala
+def apply[T](body: => T)(implicit executor: ExecutionContext): Future[T]
+```
+使用的时候如果没指定特别的 `ExecutionContext` 对象， 需要引入全局默认值： `import scala.concurrent.ExecutionContext.Implicits.global`
+
 #### 功能控制
 #### 限定可用实例
 #### 隐式证据
