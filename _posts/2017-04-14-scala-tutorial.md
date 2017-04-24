@@ -943,11 +943,110 @@ def apply[T](body: => T)(implicit executor: ExecutionContext): Future[T]
 使用的时候如果没指定特别的 `ExecutionContext` 对象， 需要引入全局默认值： `import scala.concurrent.ExecutionContext.Implicits.global`
 
 #### 功能控制
+权限控制， 使用全局隐式变量 `session` 记录用户登录状态， 方法对不同状态表现不同的行为(以下代码不可运行)：
+```scala
+def createMenu(implicit session: Session): Menu = {
+  val accountItems = if (session.loggedin()) List(view, edit)
+    else List(loginItem)
+}
+```
+
 #### 限定可用实例
+
 #### 隐式证据
+看下列示例：
+```scala
+val l1 = List(1,2,3,4)
+val l2 = List("one"->1, "two"->2, "three"->3)
+
+l1.toMap     // error: Cannot prove that Int <:< (T, U).
+l2.toMap     // res0: Map[String, Int] = Map(one->1, two->2, three->3)
+```
+在 `toMap` 的定义中： 
+```scala
+trait TraversableOnce[+A] extends ... {
+  ...
+  def toMap[T,U](implicit ev: <:<[A, (T, U)]): Map[T,U]
+}
+```
+`ev` 便是证据， 证明 `A` 可以转化为 `(T, U)` 。
 #### 绕开类型擦除带来的限制
+由于 JVM 的类型擦除， 下面这段代码将不能按照我们的意愿运行：
+```scala
+object C {
+  def m(seq: Seq[Int]): Unit = ???
+  def m(seq: Seq[String]): Unit = ???
+} // error: double definition: method m ...
+```
+我们可以用隐式参数来消除这种方法二义性：
+```scala
+object M {
+  implicit object IntMarker
+  implicit object StringMarker
+  def m(seq: Seq[Int])(implicit i: IntMarker.type): Unit =
+    println(s"Seq[Int]: $seq")
+  def m(seq: Seq[String])(implicit s: StringMarker.type): Unit = 
+    println(s"Seq[String]: $seq")
+}
+```
+> 单例对象的类型为 类型名.type
+
 #### 改善报错信息
+
 #### 虚类型
+虚类型表明我们只关注类型， 而不关心类型的值， 这对于某些必须按照特定工作流执行的运算提供来类型检查的功能， 比如计算税后工资， 先减去保险的部分， 然后减去养老账户的部分， 然后减去扣税， 最后减去最后税， 如果这个过程没按顺序执行， 就会产生错误的计算结果， 但是每一步计算的类型都是一个相同的状态信息， 我们只有人工的检查这个过程是否有误， 我们想把这个过程丢给编译器进行检查， 于是就引入来虚类型来帮忙实现：
+```scala
+sealed trait Start
+sealed trait Step1 
+sealed trait Step2
+sealed trait Step3
+sealed trait Final
+
+case class Employee(
+  name: String, 
+  annualSalary: Float,
+  taxRate: Float,  // For simplicity, just 1 rate covering all taxes.
+  insurancePremiumsPerPayPeriod: Float,
+  _401kDeductionRate: Float,  // A pretax, retirement savings plan in the USA.
+  postTaxDeductions: Float)
+
+case class Pay[Step](employee: Employee, netPay: Float)
+
+object Payroll {
+  def start(employee: Employee): Pay[Start] = 
+    Pay[PreTaxDeductions](employee, employee.annualSalary / 26.0F)
+  def minusInsurance(pay: Pay[Start]): Pay[Step1] = {
+    val newNet = pay.netPay - pay.employee.insurancePremiumsPerPayPeriod
+    pay.copy(netPay = newNet)
+  }
+  def minus401k(pay: Pay[Step1]): Pay[Step2] = {
+    val newNet = pay.netPay - (pay.employee._401kDeductionRate * pay.netPay)
+    pay.copy(netPay = newNet)
+  }
+  def minusTax(pay: Pay[Step2]): Pay[Step3] = {
+    val newNet = pay.netPay - (pay.employee.taxRate * pay.netPay)
+    pay.copy(netPay = newNet)
+  }
+  def minusFinalDeductions(pay: Pay[Step3]): Pay[Final] = {
+    val newNet = pay.netPay - pay.employee.postTaxDeductions
+    pay copy (netPay = newNet)
+  }
+}
+
+object CalculatePayroll {
+  def main(args: Array[String]) = {
+    val e = Employee("Buck Trends", 100000.0F, 0.25F, 200F, 0.10F, 0.05F)
+    val pay1 = Payroll.start(e)
+    // 401K and insurance can be calculated in either order.
+    val pay2 = Payroll minus401k pay1
+    val pay3 = Payroll minusInsurance pay2
+    val pay4 = Payroll minusTax pay3
+    val pay  = Payroll minusFinalDeductions pay4
+  }
+}
+```
+上面的示例我们通过引入虚类型来限制执行过程。 如果没有按照规定的过程计算， 编译器会检查出来错误。
+
 #### 隐式参数遵循的规则
 ### 隐式转换
 #### 构建独有的字符串插入器
