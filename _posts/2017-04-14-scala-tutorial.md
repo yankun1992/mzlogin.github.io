@@ -1005,9 +1005,9 @@ sealed trait Final
 case class Employee(
   name: String, 
   annualSalary: Float,
-  taxRate: Float,  // For simplicity, just 1 rate covering all taxes.
+  taxRate: Float, 
   insurancePremiumsPerPayPeriod: Float,
-  _401kDeductionRate: Float,  // A pretax, retirement savings plan in the USA.
+  _401kDeductionRate: Float, 
   postTaxDeductions: Float)
 
 case class Pay[Step](employee: Employee, netPay: Float)
@@ -1048,7 +1048,17 @@ object CalculatePayroll {
 上面的示例我们通过引入虚类型来限制执行过程。 如果没有按照规定的过程计算， 编译器会检查出来错误。
 
 #### 隐式参数遵循的规则
+- 只允许最后一个参数列表出现隐式参数
+- implicit 关键字必须出现在列表的最左边， 且只能出现一次， 且本列表 implicit 关键字后的参数都是隐式的。
+
 ### 隐式转换
+我们经常使用 `->` 构造二元组， 比如 `1 -> "one"` 、 `"one" -> 1` 等， 但是这种写法并不是字面量写法， `->` 其实是一个方法， 但是我们希望对任何的对象都可以使用 `->` 方法， 去改造所有类型的定义添加一个方法的方式显然不行， scala 提供了一种给对象注入方法的手段， 那就是隐式转换， 这种转换通过 `隐式类` 实现， 比如 scala 在 Predef 对象中定义来隐式类来注入 `->` 方法：
+```scala
+implicit final class ArrowAssoc[A](val arrow_start: A){
+  def ->[B](arrow_end: B): Tuple2[A,B] = Tuple2(arrow_start, arrow_end)
+}
+```
+
 #### 构建独有的字符串插入器
 #### 表达式问题
 ### 类型类模式
