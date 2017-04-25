@@ -1069,6 +1069,47 @@ implicit final class ArrowAssoc[A](val arrow_start: A){
 隐式转换可以通过不修改源码的情况下为所有类型添加新方法。 面向对象编程通过 `子类型化` 的方式实现这一功能， 但是这一技术是有弊端的： 什么时候我们在父类中定义方法， 什么时候声明成抽象的方法， 如果使用不当， 这些定义在父类中的方法就会变成子类加载的负担。 
 
 ### 类型类模式
+类型类最先被 Haskell 引入， 之后 Scala 也实现了类型类模式。 在 scala 中我们可以使用隐式转换为类型注入新的方法， 也可以使用类型类模式。 下面这个例子简要描述类类型类的用法, 点击[这儿](http://udn.yyuap.com/doc/guides-to-scala-book/chp12-type-class.html)更加详细了解：
+```scala
+case class Address(street: String, city: String)
+case class Person(name: String, address: Address)
+
+trait ToJSON {
+  def toJSON(level: Int = 0): String
+
+  val INDENTATION = "  "
+  def indentation(level: Int = 0): (String,String) = 
+    (INDENTATION * level, INDENTATION * (level+1))
+}
+
+implicit class AddressToJSON(address: Address) extends ToJSON {
+  def toJSON(level: Int = 0): String = {
+    val (outdent, indent) = indentation(level)
+    s"""{
+      |${indent}"street": "${address.street}", 
+      |${indent}"city":   "${address.city}"
+      |$outdent}""".stripMargin
+  }
+}
+
+implicit class PersonToJSON(person: Person) extends ToJSON {
+  def toJSON(level: Int = 0): String = {
+    val (outdent, indent) = indentation(level)
+    s"""{
+      |${indent}"name":    "${person.name}", 
+      |${indent}"address": ${person.address.toJSON(level + 1)} 
+      |$outdent}""".stripMargin
+  }
+}
+
+val a = Address("1 Scala Lane", "Anytown")
+val p = Person("Buck Trends", a)
+
+println(a.toJSON())
+println(p.toJSON())
+```
+类型类式 scala 中很重要的一种思想， 请仔细阅读相关资料， 深入了解！ 
+
 ### 隐式所导致的技术问题
 ### 隐式解析规则
 ### scala 内置的各种各样的隐式
