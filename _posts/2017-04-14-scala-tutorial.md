@@ -1119,6 +1119,28 @@ scala 会解析无须输入路径前缀的类型兼容隐式值。
 ### 合理使用
 
 ## scala 函数式编程
+### 什么是函数式编程
+#### 数学中的函数
+#### 不可变变量
+### scala 中的函数式编程
+#### 匿名函数、 Lambda 与闭包
+#### 内部与外部的纯粹性
+### 递归
+### 部分应用函数与偏函数
+### Curry 化与函数的其它转换
+### 函数式编程的数据结构
+#### Seq
+#### Map
+#### Set
+### foreach map filter fold reduce
+#### foreach
+#### map
+#### filter
+#### fold reduce
+### [fold|reduce][Left|Right]
+### 组合器
+### 关于复制
+
 ## 深入学习 for 推导式
 ## scala 面向对象编程
 ## 特质 Trait
