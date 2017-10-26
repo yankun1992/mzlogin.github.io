@@ -12,6 +12,7 @@
       - mesos
       - marathon
       - REX-ray
+      - CEPH
 
 - name: 算法
   keywords:
