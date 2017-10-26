@@ -8,8 +8,10 @@
 - name: 大数据/云计算
   keywords:
       - Spark
-      - MongoDB
       - Docker
+      - mesos
+      - marathon
+      - REX-ray
 
 - name: 算法
   keywords:
